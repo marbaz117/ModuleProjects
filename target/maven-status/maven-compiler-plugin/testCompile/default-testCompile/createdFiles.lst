@@ -1,0 +1,3 @@
+org/example/AppTest.class
+org/example/DAO/ExpenseDAOTest.class
+org/example/service/ExpenseServiceTest.class

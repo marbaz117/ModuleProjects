@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExpenseService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Maven-PracticalTask</a> &gt; <a href="index.source.html" class="el_package">org.example.service</a> &gt; <span class="el_source">ExpenseService.java</span></div><h1>ExpenseService.java</h1><pre class="source lang-java linenums">package org.example.service;
+
+import org.example.DAO.ExpenseDAO;
+import org.example.model.Expense;
+import java.util.*;
+public class ExpenseService {
+
+    private ExpenseDAO dao;
+
+<span class="nc" id="L10">    public ExpenseService() {</span>
+
+<span class="nc" id="L12">    }</span>
+<span class="fc" id="L13">    public ExpenseService(ExpenseDAO dao) {</span>
+<span class="fc" id="L14">        this.dao = dao;</span>
+<span class="fc" id="L15">    }</span>
+
+    public List&lt;Expense&gt; parseExpenses(List&lt;String&gt; lines) {
+<span class="fc" id="L18">        List&lt;Expense&gt; expenses = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        for (String line : lines) {</span>
+<span class="fc" id="L21">            String[] parts = line.split(&quot;,&quot;);</span>
+<span class="fc" id="L22">            expenses.add(new Expense(</span>
+<span class="fc" id="L23">                    Integer.parseInt(parts[0]),</span>
+                    parts[1],
+<span class="fc" id="L25">                    Double.parseDouble(parts[2])));</span>
+<span class="fc" id="L26">        }</span>
+
+<span class="fc" id="L28">        return expenses;</span>
+    }
+
+    public void saveToDB(List&lt;Expense&gt; expenses) {
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        for (Expense expense : expenses) {</span>
+<span class="fc" id="L33">            dao.saveExpense(expense);</span>
+<span class="fc" id="L34">        }</span>
+<span class="fc" id="L35">    }</span>
+
+    public Map&lt;Integer, ArrayList&lt;Integer&gt;&gt; groupProductByPerson() {
+<span class="fc" id="L38">        return dao.getExpenseIdOfPersons();</span>
+    }
+    public void calculateTotal() {
+
+<span class="nc" id="L42">        Map&lt;Integer, ArrayList&lt;Integer&gt;&gt; expenseOfEachPerson = dao.getExpenseIdOfPersons();</span>
+
+<span class="nc" id="L44">        System.out.println(&quot;Expenses Of Each Person are - : &quot;);</span>
+<span class="nc" id="L45">        System.out.println(&quot;--------------------------------&quot;);</span>
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (Map.Entry&lt;Integer, ArrayList&lt;Integer&gt;&gt; entry : expenseOfEachPerson.entrySet()) {</span>
+
+<span class="nc" id="L49">            double sum = 0;</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            for (Integer expenseId : entry.getValue()) {</span>
+<span class="nc" id="L52">                sum += dao.getAmount(expenseId);</span>
+<span class="nc" id="L53">            }</span>
+
+<span class="nc" id="L55">            System.out.println(&quot;Customer: &quot; + entry.getKey() + &quot; Total: &quot; + sum);</span>
+<span class="nc" id="L56">        }</span>
+<span class="nc" id="L57">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
