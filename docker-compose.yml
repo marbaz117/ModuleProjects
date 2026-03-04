@@ -1,0 +1,29 @@
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: arbaz123456
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: expense-app
+    depends_on:
+      - mysql
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/mydb
+      DB_USER: root
+      DB_PASSWORD: arbaz123456   # ⚠ FIXED (must match mysql password)
+    stdin_open: true             # 👈 ADD THIS
+    tty: true                    # 👈 ADD THIS
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:

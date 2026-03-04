@@ -1,4 +1,11 @@
-FROM ubuntu:latest
-LABEL authors="marbaz"
+# Use official Java image
+FROM eclipse-temurin:17-jdk-jammy
 
-ENTRYPOINT ["top", "-b"]
+# Set working directory
+WORKDIR /app
+
+# Copy jar file
+COPY target/*jar-with-dependencies.jar app.jar
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
